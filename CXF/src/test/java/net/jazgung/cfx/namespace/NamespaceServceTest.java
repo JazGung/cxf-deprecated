@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.xml.ws.Holder;
 
 import org.apache.cxf.jaxb.JAXBDataBinding;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.jazgung.cfx.GenericTest;
@@ -16,6 +17,7 @@ import net.jazgung.cfx.quickstart.client.impl.JaxWsProxyFactoryBeanImpl;
 import net.jazgung.cfx.util.ServerUtil;
 import net.jazgung.cfx.webservice.WebServiceUtils;
 
+@Ignore
 public class NamespaceServceTest extends GenericTest {
 
 	@Test

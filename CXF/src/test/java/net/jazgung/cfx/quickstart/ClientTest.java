@@ -1,5 +1,9 @@
 package net.jazgung.cfx.quickstart;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import net.jazgung.cfx.GenericTest;
 import net.jazgung.cfx.quickstart.client.Client;
 import net.jazgung.cfx.quickstart.client.impl.ServiceImpl;
@@ -8,9 +12,6 @@ import net.jazgung.cfx.quickstart.webservice.QuickStartService;
 import net.jazgung.cfx.quickstart.webservice.QuickStartServiceImpl;
 import net.jazgung.cfx.util.ServerUtil;
 import net.jazgung.cfx.webservice.WebServiceUtils;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class ClientTest extends GenericTest {
 
@@ -34,5 +35,10 @@ public class ClientTest extends GenericTest {
 		printCutOffRule("beging testService");
 		invoke(new ServiceImpl());
 		printCutOffRule("end testService");
+	}
+	
+	@AfterClass
+	public static void afterClass() {
+		ServerUtil.shutdown();
 	}
 }
