@@ -109,16 +109,20 @@ public class LoggingFormatInInterceptor extends AbstractLoggingInterceptor {
 	}
 
 	protected String formatXml(String src) throws Exception {
-		Document document = null;
-		document = DocumentHelper.parseText(src);
-		// 格式化输出格式
-		OutputFormat format = OutputFormat.createPrettyPrint();
-		StringWriter writer = new StringWriter();
-		// 格式化输出流
-		XMLWriter xmlWriter = new XMLWriter(writer, format);
-		// 将document写入到输出流
-		xmlWriter.write(document);
-		xmlWriter.close();
-		return writer.toString();
+		try {
+			Document document = null;
+			document = DocumentHelper.parseText(src);
+			// 格式化输出格式
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			StringWriter writer = new StringWriter();
+			// 格式化输出流
+			XMLWriter xmlWriter = new XMLWriter(writer, format);
+			// 将document写入到输出流
+			xmlWriter.write(document);
+			xmlWriter.close();
+			return writer.toString();
+		} catch (Exception e) {
+			return src;
+		}
 	}
 }
