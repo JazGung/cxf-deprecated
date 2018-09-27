@@ -1,7 +1,5 @@
 package net.jazgung.cfx.rs.webservice;
 
-import java.util.Map;
-
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.webservice.AbstractWebServiceImpl;
 
@@ -13,48 +11,127 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
-	public ReqDto retrieve() {
-		return new ReqDto();
+	public void retrieve() {
 	}
 
 	@Override
-	public ReqDto retrieveById(long id) {
-		return new ReqDto();
+	public void get(String pathParam, String queryParam, String matrixParam, String headerParam, String cookieParam, String formPara) {
+		System.out.println(123);
 	}
 
 	@Override
-	public ReqDto retrievesByName_param(String name) {
-		return new ReqDto();
+	public void getPathParamButUnconfig(String pathParam) {
+		System.out.println("pathParam: " + pathParam);
 	}
 
 	@Override
-	public ReqDto retrievesByName_form(String name) {
-		return new ReqDto();
+	public void getUnconfig(String param) {
+		System.out.println("param1: " + param);
 	}
 
 	@Override
-	public ReqDto create(ReqDto req) {
-		return new ReqDto();
+	public void getUnconfig(String param1, String param2) {
+		System.out.println("param1: " + param1 + ", param2: " + param2);
 	}
 
 	@Override
-	public ReqDto updateById(long id, Map<String, Object> req) {
-		return new ReqDto();
+	public void getDtoParam(ReqDto req) {
 	}
 
 	@Override
-	public ReqDto update(ReqDto req) {
-		return new ReqDto();
+	public void post(String pathParam, String queryParam, String matrixParam, String headerParam, String cookieParam, String formPara) {
+		System.out.println(123);
 	}
 
 	@Override
-	public ReqDto deleteById(long id) {
-		return new ReqDto();
+	public void postPathParamButUnconfig(String pathParam) {
+		System.out.println("pathParam: " + pathParam);
 	}
 
 	@Override
-	public ReqDto deleteById_param(long id) {
-		return new ReqDto();
+	public void postUnconfig(String param) {
+		System.out.println("param1: " + param);
+	}
+
+	@Override
+	public void postUnconfig(String param1, String param2) {
+		System.out.println("param1: " + param1 + ", param2: " + param2);
+	}
+
+	@Override
+	public void postDtoParam(ReqDto req) {
+	}
+
+	@Override
+	public void put(String pathParam, String queryParam, String matrixParam, String headerParam, String cookieParam, String formPara) {
+		System.out.println(123);
+	}
+
+	@Override
+	public void putPathParamButUnconfig(String pathParam) {
+		System.out.println("pathParam: " + pathParam);
+	}
+
+	@Override
+	public void putUnconfig(String param) {
+		System.out.println("param1: " + param);
+	}
+
+	@Override
+	public void putUnconfig(String param1, String param2) {
+		System.out.println("param1: " + param1 + ", param2: " + param2);
+	}
+
+	@Override
+	public void putDtoParam(ReqDto req) {
+	}
+
+	@Override
+	public void delete(String pathParam, String queryParam, String matrixParam, String headerParam, String cookieParam, String formPara) {
+		System.out.println(123);
+	}
+
+	@Override
+	public void deletePathParamButUnconfig(String pathParam) {
+		System.out.println("pathParam: " + pathParam);
+	}
+
+	@Override
+	public void deleteUnconfig(String param) {
+		System.out.println("param1: " + param);
+	}
+
+	@Override
+	public void deleteUnconfig(String param1, String param2) {
+		System.out.println("param1: " + param1 + ", param2: " + param2);
+	}
+
+	@Override
+	public void deleteDtoParam(ReqDto req) {
+	}
+
+	@Override
+	public ReqDto consumesAndProduces(ReqDto req) {
+		return req;
+	}
+
+	@Override
+	public void urlEncoded(String name, int age) {
+	}
+
+	@Override
+	public String urlEncoded() {
+		return "Hello";
+	}
+
+	@Override
+	public ReqDto urlEncoded(ReqDto req) {
+		return req;
+	}
+
+	@Override
+	public ReqDto json(ReqDto req) {
+		return req;
 	}
 
 }
