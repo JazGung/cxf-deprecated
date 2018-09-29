@@ -11,9 +11,12 @@ import net.jazgung.cfx.GenericTest;
 import net.jazgung.cfx.rs.client.Client;
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedFormDto;
 import net.jazgung.cfx.rs.dto.XmlDto;
 import net.jazgung.cfx.rs.server.Server;
 import net.jazgung.cfx.rs.webservice.RsWebService;
+import net.jazgung.cfx.util.PropertyValuePrinter;
 import net.jazgung.cfx.webservice.WebServiceUtils;
 
 public class RsWebServiceTest extends GenericTest {
@@ -197,14 +200,49 @@ public class RsWebServiceTest extends GenericTest {
 
 	@Test
 	public void testMediaTypeUrlEncoded() {
+		UrlEncodedDto dto1 = new UrlEncodedDto();
+		dto1.setCookieParamFiled("filed");
+		dto1.setCookieParamGet("get");
+		dto1.setCookieParamSet("set");
+		dto1.setFormParamFiled("filed");
+		dto1.setFormParamGet("get");
+		dto1.setFormParamSet("set");
+		dto1.setHeaderParamFiled("filed");
+		dto1.setHeaderParamGet("get");
+		dto1.setHeaderParamSet("set");
+		dto1.setMatrixParamFiled("filed");
+		dto1.setMatrixParamGet("get");
+		dto1.setMatrixParamSet("set");
+		dto1.setPathParam("path1");
+		dto1.setQueryParamFiled("filed");
+		dto1.setQueryParamGet("get");
+		dto1.setQueryParamSet("set");
+		PropertyValuePrinter.print(dto1);
+
+		UrlEncodedFormDto dto2 = new UrlEncodedFormDto();
+		dto2.setFormParamFiled("filed");
+		dto2.setFormParamGet("get");
+		dto2.setFormParamSet("set");
+		PropertyValuePrinter.print(dto2);
+
 		printCutOffRule("begin urlEncoded(String name, int age)");
 		service.urlEncoded("Jaz", 18);
 		printCutOffRule("end urlEncoded(String name, int age)");
 		printCutOffRule();
 
-		printCutOffRule("begin urlEncoded(ReqDto req)");
-		service.urlEncoded(new UrlEncodedDto());
-		printCutOffRule("end urlEncoded(ReqDto req)");
+		printCutOffRule("begin urlEncoded(UrlEncodedDto dto)");
+		service.urlEncoded(dto1);
+		printCutOffRule("end urlEncoded(UrlEncodedDto dto)");
+		printCutOffRule();
+
+		printCutOffRule("begin urlEncoded(UrlEncodedFormDto dto)");
+		service.urlEncoded(dto2);
+		printCutOffRule("end urlEncoded(UrlEncodedFormDto dto)");
+		printCutOffRule();
+
+		printCutOffRule("begin urlEncoded(UrlEncodedDto dto1, UrlEncodedEmptyDto dto2)");
+		service.urlEncoded(dto1, new UrlEncodedEmptyDto());
+		printCutOffRule("end urlEncoded(UrlEncodedDto dto1, UrlEncodedEmptyDto dto2)");
 		printCutOffRule();
 
 		printCutOffRule("begin urlEncoded()");

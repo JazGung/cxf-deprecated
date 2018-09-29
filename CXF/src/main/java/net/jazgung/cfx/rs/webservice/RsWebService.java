@@ -23,6 +23,8 @@ import net.jazgung.cfx.log.LoggingFormatInInterceptor;
 import net.jazgung.cfx.log.LoggingFormatOutInterceptor;
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedFormDto;
 import net.jazgung.cfx.rs.dto.XmlDto;
 
 @InInterceptors(interceptors = { LoggingFormatInInterceptor.NAME })
@@ -191,11 +193,30 @@ public interface RsWebService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	void urlEncoded(@FormParam("name") String name, @FormParam("age") int age);
 
-	// 请求参数如果是DTO，则不能使用MediaType.APPLICATION_FORM_URLENCODED
+	// 在CXF
+	// 3.0.3中，方法参数上配置了@BeanParam，则在参数类的set方法上配置@PathParam、@QueryParam、@MatrixParam、@HeaderParam、@CookieParam客户端、服务端都可正常处理，但在字段上配置则只有服务端能正常处理
+	// 在CXF
+	// 3.1.10中，方法参数上配置了@BeanParam，则在参数类的set方法和字段上上配置@PathParam、@QueryParam、@MatrixParam、@HeaderParam、@CookieParam客户端、服务端都可正常处理
+	// 在CXF
+	// 3.0.3/3.1.10，方法参数上配置了@BeanParam，在参数类@FormParam的使用有其他要求
 	@POST
 	@Path("/urlEncodedDto/{path_param}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	void urlEncoded(@BeanParam UrlEncodedDto req);
+	void urlEncoded(@BeanParam UrlEncodedDto dto);
+
+	// 在CXF 3.0.3/3.1.10，方法参数上配置了@FormParam后可以将参数对象中所有的字段映射到Http
+	// Body中，每个字段的key与字段名相同且无法修改（对象中的所有@FormParam无效）
+	@POST
+	@Path("/urlEncodedFormDto")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	void urlEncoded(@FormParam("") UrlEncodedFormDto dto);
+
+	// 在CXF 3.0.3/3.1.10， 如要要将参数对象中的字段映射到Http
+	// Body中且对字段的key进行定制，必须配置带@FormParam的字段，如果字段类中没有以get开头的方法
+	@POST
+	@Path("/urlEncodedFormDto/{path_param}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	void urlEncoded(@BeanParam UrlEncodedDto dto1, @FormParam("") UrlEncodedEmptyDto dto2);
 
 	// 响应无法配置参数名，@Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED后会把响应值直接写入Http
 	// Body

@@ -1,14 +1,11 @@
 package net.jazgung.cfx.rs.webservice;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedFormDto;
 import net.jazgung.cfx.rs.dto.XmlDto;
+import net.jazgung.cfx.util.PropertyValuePrinter;
 import net.jazgung.cfx.webservice.AbstractWebServiceImpl;
 
 public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebService {
@@ -134,15 +131,18 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 
 	@Override
 	public void urlEncoded(UrlEncodedDto dto) {
-		BeanInfo dtoInfo;
-		try {
-			dtoInfo = Introspector.getBeanInfo(dto.getClass());
-			for (PropertyDescriptor propertyDescriptor : dtoInfo.getPropertyDescriptors()) {
-				System.out.println(propertyDescriptor.getName() + ": " + propertyDescriptor.getReadMethod().invoke(dto, new Object[] {}));
-			}
-		} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
+		PropertyValuePrinter.print(dto);
+	}
+
+	@Override
+	public void urlEncoded(UrlEncodedFormDto dto) {
+		PropertyValuePrinter.print(dto);
+	}
+
+	@Override
+	public void urlEncoded(UrlEncodedDto dto1, UrlEncodedEmptyDto dto2) {
+		PropertyValuePrinter.print(dto1);
+		PropertyValuePrinter.print(dto2);
 	}
 
 	@Override
