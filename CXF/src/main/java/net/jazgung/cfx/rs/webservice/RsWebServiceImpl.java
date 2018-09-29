@@ -1,6 +1,14 @@
 package net.jazgung.cfx.rs.webservice;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+
 import net.jazgung.cfx.rs.dto.ReqDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.XmlDto;
 import net.jazgung.cfx.webservice.AbstractWebServiceImpl;
 
 public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebService {
@@ -35,7 +43,7 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
-	public void getDtoParam(ReqDto req) {
+	public void getDtoParam(UrlEncodedDto req) {
 	}
 
 	@Override
@@ -111,7 +119,7 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
-	public ReqDto consumesAndProduces(ReqDto req) {
+	public XmlDto consumesAndProduces(XmlDto req) {
 		return req;
 	}
 
@@ -125,8 +133,16 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
-	public ReqDto urlEncoded(ReqDto req) {
-		return req;
+	public void urlEncoded(UrlEncodedDto dto) {
+		BeanInfo dtoInfo;
+		try {
+			dtoInfo = Introspector.getBeanInfo(dto.getClass());
+			for (PropertyDescriptor propertyDescriptor : dtoInfo.getPropertyDescriptors()) {
+				System.out.println(propertyDescriptor.getName() + ": " + propertyDescriptor.getReadMethod().invoke(dto, new Object[] {}));
+			}
+		} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

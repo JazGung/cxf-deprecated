@@ -1,5 +1,6 @@
 package net.jazgung.cfx.rs.webservice;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
@@ -21,6 +22,8 @@ import org.apache.cxf.interceptor.OutInterceptors;
 import net.jazgung.cfx.log.LoggingFormatInInterceptor;
 import net.jazgung.cfx.log.LoggingFormatOutInterceptor;
 import net.jazgung.cfx.rs.dto.ReqDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.XmlDto;
 
 @InInterceptors(interceptors = { LoggingFormatInInterceptor.NAME })
 @OutInterceptors(interceptors = { LoggingFormatOutInterceptor.NAME })
@@ -66,7 +69,7 @@ public interface RsWebService {
 	// Http GET方法，参数为DTO必须配置@Consumes，否则会因为没有串行/反串行逻辑导致报错
 	@GET
 	@Path("/get/dto")
-	void getDtoParam(ReqDto req);
+	void getDtoParam(@BeanParam UrlEncodedDto req);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -181,7 +184,7 @@ public interface RsWebService {
 	@Path("/consumesAndProduces")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_JSON)
-	ReqDto consumesAndProduces(ReqDto req);
+	XmlDto consumesAndProduces(XmlDto req);
 
 	@POST
 	@Path("/urlEncoded")
@@ -190,11 +193,12 @@ public interface RsWebService {
 
 	// 请求参数如果是DTO，则不能使用MediaType.APPLICATION_FORM_URLENCODED
 	@POST
-	@Path("/urlEncodedDto")
+	@Path("/urlEncodedDto/{path_param}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	ReqDto urlEncoded(ReqDto req);
+	void urlEncoded(@BeanParam UrlEncodedDto req);
 
-	// 响应无法配置参数名，则不能将@Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED
+	// 响应无法配置参数名，@Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED后会把响应值直接写入Http
+	// Body
 	@POST
 	@Path("/urlEncodedReturn")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)

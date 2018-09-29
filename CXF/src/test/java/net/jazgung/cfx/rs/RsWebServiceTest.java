@@ -1,6 +1,6 @@
 package net.jazgung.cfx.rs;
 
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.ProcessingException;
 
 import org.apache.cxf.interceptor.Fault;
 import org.junit.Assert;
@@ -10,6 +10,8 @@ import org.junit.Test;
 import net.jazgung.cfx.GenericTest;
 import net.jazgung.cfx.rs.client.Client;
 import net.jazgung.cfx.rs.dto.ReqDto;
+import net.jazgung.cfx.rs.dto.UrlEncodedDto;
+import net.jazgung.cfx.rs.dto.XmlDto;
 import net.jazgung.cfx.rs.server.Server;
 import net.jazgung.cfx.rs.webservice.RsWebService;
 import net.jazgung.cfx.webservice.WebServiceUtils;
@@ -51,7 +53,7 @@ public class RsWebServiceTest extends GenericTest {
 		try {
 			service.getUnconfig("param1", "param2");
 			Assert.fail();
-		} catch (WebApplicationException e) {
+		} catch (ProcessingException e) {
 			e.printStackTrace();
 		}
 		printCutOffRule("end getUnconfig(String param1, String param2)");
@@ -59,10 +61,10 @@ public class RsWebServiceTest extends GenericTest {
 
 		printCutOffRule("begin getDtoParam(ReqDto)");
 		try {
-			service.getDtoParam(new ReqDto());
+			service.getDtoParam(new UrlEncodedDto());
 			Assert.fail();
-		} catch (WebApplicationException e) {
-			e.printStackTrace();
+		} catch (Fault f) {
+			f.printStackTrace();
 		}
 		printCutOffRule("end getDtoParam(ReqDto)");
 		printCutOffRule();
@@ -91,7 +93,7 @@ public class RsWebServiceTest extends GenericTest {
 		try {
 			service.postUnconfig("param1", "param2");
 			Assert.fail();
-		} catch (WebApplicationException e) {
+		} catch (ProcessingException e) {
 			e.printStackTrace();
 		}
 		printCutOffRule("end postUnconfig(String param1, String param2)");
@@ -131,7 +133,7 @@ public class RsWebServiceTest extends GenericTest {
 		try {
 			service.putUnconfig("param1", "param2");
 			Assert.fail();
-		} catch (WebApplicationException e) {
+		} catch (ProcessingException e) {
 			e.printStackTrace();
 		}
 		printCutOffRule("end putUnconfig(String param1, String param2)");
@@ -171,7 +173,7 @@ public class RsWebServiceTest extends GenericTest {
 		try {
 			service.deleteUnconfig("param1", "param2");
 			Assert.fail();
-		} catch (WebApplicationException e) {
+		} catch (ProcessingException e) {
 			e.printStackTrace();
 		}
 		printCutOffRule("end deleteUnconfig(String param1, String param2)");
@@ -181,25 +183,16 @@ public class RsWebServiceTest extends GenericTest {
 		try {
 			service.deleteDtoParam(new ReqDto());
 			Assert.fail();
-		} catch (WebApplicationException e) {
-			e.printStackTrace();
+		} catch (Fault f) {
+			f.printStackTrace();
 		}
 		printCutOffRule("end deleteDtoParam(ReqDto)");
 		printCutOffRule();
 	}
 
 	@Test
-	public void testHttpMethod() {
-		// Http GET
-		printCutOffRule("begin retrieve()");
-		service.retrieve();
-		printCutOffRule("end retrieve()");
-		printCutOffRule();
-	}
-
-	@Test
 	public void testConsumesAndProduces() {
-		service.consumesAndProduces(new ReqDto("Jaz", 18));
+		service.consumesAndProduces(new XmlDto("Jaz", 18));
 	}
 
 	@Test
@@ -210,22 +203,12 @@ public class RsWebServiceTest extends GenericTest {
 		printCutOffRule();
 
 		printCutOffRule("begin urlEncoded(ReqDto req)");
-		try {
-			service.urlEncoded(new ReqDto("Jaz", 18));
-			Assert.fail();
-		} catch (Fault f) {
-			f.printStackTrace();
-		}
+		service.urlEncoded(new UrlEncodedDto());
 		printCutOffRule("end urlEncoded(ReqDto req)");
 		printCutOffRule();
 
 		printCutOffRule("begin urlEncoded()");
-		try {
-			service.urlEncoded();
-			Assert.fail();
-		} catch (WebApplicationException e) {
-			e.printStackTrace();
-		}
+		service.urlEncoded();
 		printCutOffRule("end urlEncoded()");
 		printCutOffRule();
 	}

@@ -21,16 +21,9 @@ package net.jazgung.cfx.log;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URI;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.cxf.common.util.StringUtils;
-import org.apache.cxf.helpers.XMLUtils;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -96,36 +89,18 @@ public abstract class AbstractLoggingInterceptor extends AbstractPhaseIntercepto
 
 	protected void writePayload(StringBuilder builder, CachedOutputStream cos, String encoding, String contentType) throws Exception {
 		// Just transform the XML message
-		if (isPrettyLogging() && (contentType != null && contentType.indexOf("xml") >= 0)) {
-			Transformer serializer = XMLUtils.newTransformer(2);
-			// Setup indenting to "pretty print"
-			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-			StringWriter swriter = new StringWriter();
-			serializer.transform(new StreamSource(cos.getInputStream()), new StreamResult(swriter));
-			String result = swriter.toString();
-			if (result.length() < limit || limit == -1) {
-				builder.append(swriter.toString());
-			} else {
-				builder.append(swriter.toString().substring(0, limit));
-			}
-
+		if (StringUtils.isEmpty(encoding)) {
+			cos.writeCacheTo(builder, limit);
 		} else {
-			if (StringUtils.isEmpty(encoding)) {
-				cos.writeCacheTo(builder, limit);
-			} else {
-				cos.writeCacheTo(builder, encoding, limit);
-			}
-
+			cos.writeCacheTo(builder, encoding, limit);
 		}
 	}
 
 	/**
-	 * Transform the string before display. The implementation in this class
-	 * does nothing. Override this method if you want to change the contents of
-	 * the logged message before it is delivered to the output. For example, you
-	 * can use this to mask out sensitive information.
+	 * Transform the string before display. The implementation in this class does
+	 * nothing. Override this method if you want to change the contents of the
+	 * logged message before it is delivered to the output. For example, you can use
+	 * this to mask out sensitive information.
 	 * 
 	 * @param originalLogString
 	 *            the raw log message.

@@ -18,8 +18,7 @@ public class Server {
 		RsWebServiceImpl implementor = new RsWebServiceImpl();
 
 		// 添加ResourceClass
-		@SuppressWarnings("rawtypes")
-		List<Class> resourceClasses = new ArrayList<Class>();
+		List<Class<?>> resourceClasses = new ArrayList<Class<?>>();
 		resourceClasses.add(RsWebServiceImpl.class);
 
 		// 添加ResourceProvider
