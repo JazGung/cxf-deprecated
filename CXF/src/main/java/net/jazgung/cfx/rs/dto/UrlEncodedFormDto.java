@@ -1,8 +1,14 @@
 package net.jazgung.cfx.rs.dto;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.core.MultivaluedHashMap;
 
-public class UrlEncodedFormDto {
+public class UrlEncodedFormDto extends MultivaluedHashMap<String, Object> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@FormParam("form_filed")
 	String formParamFiled = "form-filed";

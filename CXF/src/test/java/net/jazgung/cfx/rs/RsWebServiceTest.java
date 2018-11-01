@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import net.jazgung.cfx.GenericTest;
 import net.jazgung.cfx.rs.client.Client;
+import net.jazgung.cfx.rs.dto.MultivaluedMapDto;
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
@@ -248,6 +249,11 @@ public class RsWebServiceTest extends GenericTest {
 		printCutOffRule("begin urlEncoded()");
 		service.urlEncoded();
 		printCutOffRule("end urlEncoded()");
+		printCutOffRule();
+
+		printCutOffRule("begin urlEncodedMultivaluedMap()");
+		service.urlEncodedMultivaluedMap(new MultivaluedMapDto());
+		printCutOffRule("end urlEncodedMultivaluedMap()");
 		printCutOffRule();
 	}
 

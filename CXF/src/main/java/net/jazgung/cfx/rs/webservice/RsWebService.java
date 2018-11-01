@@ -4,6 +4,7 @@ import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.Encoded;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -21,6 +22,7 @@ import org.apache.cxf.interceptor.OutInterceptors;
 
 import net.jazgung.cfx.log.LoggingFormatInInterceptor;
 import net.jazgung.cfx.log.LoggingFormatOutInterceptor;
+import net.jazgung.cfx.rs.dto.MultivaluedMapDto;
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
@@ -218,16 +220,23 @@ public interface RsWebService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	void urlEncoded(@BeanParam UrlEncodedDto dto1, @FormParam("") UrlEncodedEmptyDto dto2);
 
-	// 响应无法配置参数名，@Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED后会把响应值直接写入Http
-	// Body
+	// @Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED，则响应类型必须是MultivaluedHashMap的实现类（Value必须泛型为String）或Form的子类
+	// 响应中的所有字段都只能写入HTTP Body，无法写入HTTP Header
 	@POST
 	@Path("/urlEncodedReturn")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
-	String urlEncoded();
+	MultivaluedMapDto urlEncoded();
+
+	@POST
+	@Path("/urlEncodedMultivaluedMap")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
+	MultivaluedMapDto urlEncodedMultivaluedMap(MultivaluedMapDto dto);
 
 	@POST
 	@Path("/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Encoded()
 	ReqDto json(ReqDto req);
 }

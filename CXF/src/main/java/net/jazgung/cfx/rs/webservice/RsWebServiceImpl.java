@@ -1,5 +1,6 @@
 package net.jazgung.cfx.rs.webservice;
 
+import net.jazgung.cfx.rs.dto.MultivaluedMapDto;
 import net.jazgung.cfx.rs.dto.ReqDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedDto;
 import net.jazgung.cfx.rs.dto.UrlEncodedEmptyDto;
@@ -125,8 +126,13 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
-	public String urlEncoded() {
-		return "Hello";
+	public MultivaluedMapDto urlEncoded() {
+		return new MultivaluedMapDto();
+	}
+
+	@Override
+	public MultivaluedMapDto urlEncodedMultivaluedMap(MultivaluedMapDto dto) {
+		return dto;
 	}
 
 	@Override

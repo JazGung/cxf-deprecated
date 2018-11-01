@@ -1,5 +1,8 @@
 package net.jazgung.cfx.rs.dto;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ReqDto {
 
 	private String name;
