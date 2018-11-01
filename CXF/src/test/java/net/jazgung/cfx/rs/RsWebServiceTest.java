@@ -1,5 +1,7 @@
 package net.jazgung.cfx.rs;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.ws.rs.ProcessingException;
 
 import org.apache.cxf.interceptor.Fault;
@@ -253,6 +255,32 @@ public class RsWebServiceTest extends GenericTest {
 
 		printCutOffRule("begin urlEncodedMultivaluedMap()");
 		service.urlEncodedMultivaluedMap(new MultivaluedMapDto());
+		printCutOffRule("end urlEncodedMultivaluedMap()");
+		printCutOffRule();
+
+		printCutOffRule("begin urlEncodedMultivaluedMapContentType()");
+		service.urlEncodedMultivaluedMapContentType(new MultivaluedMapDto(),
+				"application/x-www-form-urlencoded; charset=" + StandardCharsets.UTF_8.name());
+		printCutOffRule("end urlEncodedMultivaluedMapContentType()");
+		printCutOffRule();
+	}
+
+	@Test
+	public void test() {
+		// UrlEncodedFormDto dto2 = new UrlEncodedFormDto();
+		// dto2.setFormParamFiled("filed");
+		// dto2.setFormParamGet("get");
+		// dto2.setFormParamSet("set");
+		// PropertyValuePrinter.print(dto2);
+		// printCutOffRule("begin urlEncoded(UrlEncodedDto dto1, UrlEncodedEmptyDto
+		// dto2)");
+		// service.urlEncoded(dto2);
+		// printCutOffRule("end urlEncoded(UrlEncodedDto dto1, UrlEncodedEmptyDto
+		// dto2)");
+		// printCutOffRule();
+		printCutOffRule("begin urlEncodedMultivaluedMap()");
+		service.urlEncodedMultivaluedMapContentType(new MultivaluedMapDto(),
+				"application/x-www-form-urlencoded; charset=" + StandardCharsets.UTF_8.name());
 		printCutOffRule("end urlEncodedMultivaluedMap()");
 		printCutOffRule();
 	}

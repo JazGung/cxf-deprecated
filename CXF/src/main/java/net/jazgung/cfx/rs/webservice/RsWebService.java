@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.interceptor.InInterceptors;
@@ -203,35 +204,39 @@ public interface RsWebService {
 	// 3.0.3/3.1.10，方法参数上配置了@BeanParam，在参数类@FormParam的使用有其他要求
 	@POST
 	@Path("/urlEncodedDto/{path_param}")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	void urlEncoded(@BeanParam UrlEncodedDto dto);
 
 	// 在CXF 3.0.3/3.1.10，方法参数上配置了@FormParam后可以将参数对象中所有的字段映射到Http
 	// Body中，每个字段的key与字段名相同且无法修改（对象中的所有@FormParam无效）
 	@POST
 	@Path("/urlEncodedFormDto")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	void urlEncoded(@FormParam("") UrlEncodedFormDto dto);
 
 	// 在CXF 3.0.3/3.1.10， 如要要将参数对象中的字段映射到Http
 	// Body中且对字段的key进行定制，必须配置带@FormParam的字段，如果字段类中没有以get开头的方法
 	@POST
 	@Path("/urlEncodedFormDto/{path_param}")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	void urlEncoded(@BeanParam UrlEncodedDto dto1, @FormParam("") UrlEncodedEmptyDto dto2);
 
-	// @Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED，则响应类型必须是MultivaluedHashMap的实现类（Value必须泛型为String）或Form的子类
+	// @Produces.value配置为MediaType.APPLICATION_FORM_URLENCODED，则响应类型必须是MultivaluedMap的实现类（Value必须泛型为String）或Form的子类
 	// 响应中的所有字段都只能写入HTTP Body，无法写入HTTP Header
 	@POST
 	@Path("/urlEncodedReturn")
 	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	MultivaluedMapDto urlEncoded();
 
+	// 如果请求的数据封装格式为MediaType.APPLICATION_FORM_URLENCODED，参数使用MultivaluedMap类型
 	@POST
 	@Path("/urlEncodedMultivaluedMap")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED + "; charset=UTF-8")
 	MultivaluedMapDto urlEncodedMultivaluedMap(MultivaluedMapDto dto);
+
+	// CXF当请求的数据封装格式为MediaType.APPLICATION_FORM_URLENCODED时，@Consumes不生效，只能多加一个参数并配置@HeaderParam(HttpHeaders.CONTENT_TYPE)注解并在调用方通过参数值来制定Http
+	// Header中的Content-Type
+	@POST
+	@Path("/urlEncodedMultivaluedMapContentType")
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED + "; charset=UTF-8")
+	MultivaluedMapDto urlEncodedMultivaluedMapContentType(MultivaluedMapDto dto, @HeaderParam(HttpHeaders.CONTENT_TYPE) String contentType);
 
 	@POST
 	@Path("/json")

@@ -136,6 +136,11 @@ public class RsWebServiceImpl extends AbstractWebServiceImpl implements RsWebSer
 	}
 
 	@Override
+	public MultivaluedMapDto urlEncodedMultivaluedMapContentType(MultivaluedMapDto dto, String contentType) {
+		return dto;
+	}
+
+	@Override
 	public void urlEncoded(UrlEncodedDto dto) {
 		PropertyValuePrinter.print(dto);
 	}

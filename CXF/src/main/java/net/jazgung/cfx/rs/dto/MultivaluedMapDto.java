@@ -11,7 +11,7 @@ public class MultivaluedMapDto extends MultivaluedHashMap<String, String> {
 	private static final String AGE = "Age";
 
 	public MultivaluedMapDto() {
-		setName("Jaz");
+		setName("巩");
 		setAge(18);
 	}
 
