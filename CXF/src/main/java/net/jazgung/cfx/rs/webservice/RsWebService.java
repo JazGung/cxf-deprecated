@@ -228,14 +228,15 @@ public interface RsWebService {
 	// 如果请求的数据封装格式为MediaType.APPLICATION_FORM_URLENCODED，参数使用MultivaluedMap类型
 	@POST
 	@Path("/urlEncodedMultivaluedMap")
-	@Produces(MediaType.APPLICATION_FORM_URLENCODED + "; charset=UTF-8")
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED)
 	MultivaluedMapDto urlEncodedMultivaluedMap(MultivaluedMapDto dto);
 
 	// CXF当请求的数据封装格式为MediaType.APPLICATION_FORM_URLENCODED时，@Consumes不生效，只能多加一个参数并配置@HeaderParam(HttpHeaders.CONTENT_TYPE)注解并在调用方通过参数值来制定Http
 	// Header中的Content-Type
+	// 如果要指定编码方案，可以直接在Content-Type后拼接"; charset=xxx"，请求必须在调用方的参数中加，响应可以在@Produces配置
 	@POST
 	@Path("/urlEncodedMultivaluedMapContentType")
-	@Produces(MediaType.APPLICATION_FORM_URLENCODED + "; charset=UTF-8")
+	@Produces(MediaType.APPLICATION_FORM_URLENCODED + "; charset=GBK")
 	MultivaluedMapDto urlEncodedMultivaluedMapContentType(MultivaluedMapDto dto, @HeaderParam(HttpHeaders.CONTENT_TYPE) String contentType);
 
 	@POST
